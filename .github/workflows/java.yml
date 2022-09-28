@@ -1,4 +1,4 @@
-name: Kotlin
+name: Java
 
 on: [push]
 
