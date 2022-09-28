@@ -37,3 +37,11 @@ build-wasm:    ## Setup And Build For WASM.
 
 	cmake -S . -B build/wasm
 	cmake --build build/wasm
+
+.PHONY: build-java
+build-java:    ## Setup And Build For Java.
+	rm -rf build/java
+	mkdir -p build/java
+
+	cmake -S . -B build/java
+	cmake --build build/java

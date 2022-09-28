@@ -1,4 +1,4 @@
-name: Swift
+name: Kotlin
 
 on: [push]
 
@@ -10,14 +10,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { name: "macOS", os: macos-latest, target: "swift" }
+          - { name: "Ubuntu", os: ubuntu-latest, target: "kotlin" }
         python-version: [3.7]
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install Brew Packages
-        run: brew install tree
 
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
@@ -34,12 +31,18 @@ jobs:
         with:
           version: "1.10.0"
 
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "adopt"
+          java-version: "8"
+
       - name: Verify
         run: |
           python3 --version
           cmake --version
           ninja --version
-          swiftc --version
+          java -version
 
       - name: Build
         run: make build-${{ matrix.config.target }}
