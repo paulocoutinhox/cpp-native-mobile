@@ -1,0 +1,48 @@
+name: Kotlin
+
+on: [push]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { name: "Ubuntu", os: ubuntu-latest, target: "kotlin" }
+        python-version: [3.7]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install CMake
+        uses: jwlawson/actions-setup-cmake@v1.8
+        with:
+          cmake-version: "3.20.0"
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+        with:
+          version: "1.10.0"
+
+      - name: Install Kotlin
+        uses: fwilhe2/setup-kotlin@main
+
+      - name: Verify
+        run: |
+          python3 --version
+          cmake --version
+          ninja --version
+          kotlinc -version
+
+      - name: Build
+        run: make ${{ matrix.config.target }}
+
+      - name: Tree
+        run: make tree
