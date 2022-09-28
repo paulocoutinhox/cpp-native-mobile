@@ -1,4 +1,4 @@
-# Cxx Native Mobile
+# C++ Native Mobile
 
 This is a test project that connect C++, Swift, Java and Kotlin in a Full-Duplex communication.
 
