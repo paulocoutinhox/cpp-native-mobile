@@ -41,36 +41,11 @@ This is the project structure when run `make tree`:
 ├── CMakeLists.txt
 ├── Makefile
 ├── README.md
-├── conan
-│   ├── darwin-toolchain
-│   │   ├── README.md
-│   │   ├── build.py
-│   │   ├── conanfile.py
-│   │   └── test_package
-│   │       ├── CMakeLists.txt
-│   │       ├── conanfile.py
-│   │       └── src
-│   │           └── example.cpp
-│   ├── profiles
-│   │   ├── android_profile
-│   │   ├── catalyst_profile
-│   │   ├── ios_profile
-│   │   ├── ios_sim_profile
-│   │   └── wasm_profile
-│   └── recipe
-│       └── conanfile.py
-├── include
-│   ├── hello-objc.h
-│   └── hello.h
-├── requirements.txt
-├── src
-│   ├── hello-objc.m
-│   └── hello.cpp
-└── test_package
-    ├── CMakeLists.txt
-    ├── conanfile.py
+└── cxx
+    ├── include
+    │   └── lib.hpp
     └── src
-        └── example.cpp
+        └── lib.cpp
 
-10 directories, 23 files
+3 directories, 5 files
 ```

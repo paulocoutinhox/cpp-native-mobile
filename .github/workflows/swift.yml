@@ -39,7 +39,7 @@ jobs:
           swiftc --version
 
       - name: Build
-        run: make ${{ matrix.config.target }}
+        run: make build-${{ matrix.config.target }}
 
       - name: Tree
         run: make tree

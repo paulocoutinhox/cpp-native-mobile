@@ -8,7 +8,6 @@ help:          ## Show The Help.
 .PHONY: clear
 clear:         ## Clear Temporary Files.
 	rm -rf build
-	rm -rf conan/darwin-toolchain/test_package/build
 	rm -rf CMakeUserPresets.json
 
 .PHONY: tree
