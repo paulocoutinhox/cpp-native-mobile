@@ -22,6 +22,9 @@ build-swift:   ## Setup And Build For Swift.
 	cmake -S . -B build/swift
 	cmake --build build/swift
 
+	swiftc swift/main.swift -o build/swift/main -v
+	build/swift/main
+
 .PHONY: build-kotlin
 build-kotlin:  ## Setup And Build For Kotlin.
 	rm -rf build/kotlin
