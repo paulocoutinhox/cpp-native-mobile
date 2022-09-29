@@ -90,7 +90,7 @@ guard c.responds(to: NSSelectorFromString(methodName)) else {
 
 c.perform(NSSelectorFromString(methodName))
 
-// method static test
+// method test
 methodName = "test";
 guard obj.responds(to: NSSelectorFromString(methodName)) else {
     print("Error: Method '\(methodName)' don't exists on '\(className)'")
