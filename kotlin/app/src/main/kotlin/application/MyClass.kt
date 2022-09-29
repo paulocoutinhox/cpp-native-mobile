@@ -11,8 +11,9 @@ class MyClass {
         println("MyClass: Test")
     }
 
-    fun testProduct(products: ArrayList<Product>): ArrayList<Product> {
-        return ArrayList<Product>()
+    fun testProduct(product: Product): ArrayList<Product> {
+        println("MyClass: Test Product")
+        return arrayListOf(product, product)
     }
 
     companion object {

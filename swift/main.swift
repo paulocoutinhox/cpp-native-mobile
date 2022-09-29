@@ -100,17 +100,18 @@ guard obj.responds(to: NSSelectorFromString(methodName)) else {
 obj.perform(NSSelectorFromString(methodName))
 
 // method test product
+methodName = "testProduct:";
 let prod = Product(id: 99, name: "Finny Candy", size: 123456.99123456, inStock: true)
 showMemoryAddr(obj: prod, prefix: "Product")
 
-let result1 = obj.perform(NSSelectorFromString("testProduct:"), with: prod)
+let result1 = obj.perform(NSSelectorFromString(methodName), with: prod)
 print(result1!)
 
-// use return value (umanaged) and send back to cxx
+// use return value (umanaged) and send back
 let result2 = result1?.takeUnretainedValue()
 
 if let result2 = result2 as? [Product] {
-    let result3 = obj.perform(NSSelectorFromString("testProduct:"), with: result2[0]).takeUnretainedValue()
+    let result3 = obj.perform(NSSelectorFromString(methodName), with: result2[0]).takeUnretainedValue()
     print(result3)
 
     if let result3 = result3 as? [Product] {
