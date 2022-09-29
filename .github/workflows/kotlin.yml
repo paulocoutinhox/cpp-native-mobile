@@ -31,15 +31,18 @@ jobs:
         with:
           version: "1.10.0"
 
-      - name: Install Kotlin
-        uses: fwilhe2/setup-kotlin@main
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "adopt"
+          java-version: "8"
 
       - name: Verify
         run: |
           python3 --version
           cmake --version
           ninja --version
-          kotlinc -version
+          java -version
 
       - name: Build
         run: make build-${{ matrix.config.target }}
