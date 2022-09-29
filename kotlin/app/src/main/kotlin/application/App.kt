@@ -25,5 +25,13 @@ fun main() {
         method.invoke(obj)
     }
 
+    // method test product
+    val prod = Product(99, "Finny Candy", 123456.99123456f, true)
+
+    cls.getMethod(methodName)?.let { method ->
+        val result1 = method.invoke("testProduct", prod)
+        println(result1)
+    }
+
     println("OK")
 }
