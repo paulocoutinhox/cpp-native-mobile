@@ -23,3 +23,10 @@ else()
     add_executable(native-proj ${APP_SRC_FILES})
     #set_target_properties(native-proj PROPERTIES PUBLIC_HEADER ${APP_INC_FILES})
 endif()
+
+# dependencies
+include(cmake/CPM.cmake)
+CPMAddPackage("gh:nlohmann/json@3.11.2")
+
+# add dependencies to target
+target_link_libraries(native-proj nlohmann_json::nlohmann_json)
