@@ -51,3 +51,13 @@ build-java:    ## Setup And Build For Java.
 
 	cmake -S . -B build/java -DNATIVE_TARGET=java
 	cmake --build build/java
+
+.PHONY: build-cxx
+build-cxx:     ## Setup And Build For C++.
+	rm -rf build/cxx
+	mkdir -p build/cxx
+
+	cmake -S . -B build/cxx -DNATIVE_TARGET=cxx
+	cmake --build build/cxx
+
+	./build/cxx/native-proj
