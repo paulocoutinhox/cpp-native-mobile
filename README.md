@@ -3,6 +3,7 @@
 This is a test project that connect C++, Swift, Java and Kotlin in a Full-Duplex communication.
 
 <p align="center">
+    <a href="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/cxx.yml"><img src="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/cxx.yml/badge.svg"></a>
     <a href="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/swift.yml"><img src="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/swift.yml/badge.svg"></a>
     <a href="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/kotlin.yml"><img src="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/kotlin.yml/badge.svg"></a>
     <a href="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/java.yml"><img src="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/java.yml/badge.svg"></a>
@@ -10,6 +11,12 @@ This is a test project that connect C++, Swift, Java and Kotlin in a Full-Duplex
 </p>
 
 <p align="center">This is an alpha project. After it works i will delete it and put on correct repository.</p>
+
+## How to build for C++
+
+Execute on terminal:
+
+`make build-cxx`
 
 ## How to build for Swift
 
