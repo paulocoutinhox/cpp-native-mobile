@@ -49,4 +49,5 @@ int main()
     };
 
     auto functionReturn = convertAdapter<bool>(j.dump());
+    std::cout << "[Main] Returned Value: " << functionReturn << std::endl;
 }
