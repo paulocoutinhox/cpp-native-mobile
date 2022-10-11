@@ -24,6 +24,8 @@ else()
     #set_target_properties(native-proj PROPERTIES PUBLIC_HEADER ${APP_INC_FILES})
 endif()
 
+target_include_directories(native-proj PRIVATE cxx/include)
+
 # dependencies
 include(cmake/CPM.cmake)
 CPMAddPackage("gh:nlohmann/json@3.11.2")

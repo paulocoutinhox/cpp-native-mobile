@@ -54,8 +54,8 @@ build-java:    ## Setup And Build For Java.
 
 .PHONY: build-cxx
 build-cxx:     ## Setup And Build For C++.
-	rm -rf build/cxx
-	mkdir -p build/cxx
+#rm -rf build/cxx
+#mkdir -p build/cxx
 
 	cmake -S . -B build/cxx -DNATIVE_TARGET=cxx
 	cmake --build build/cxx
