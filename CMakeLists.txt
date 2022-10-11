@@ -8,7 +8,7 @@ set(NATIVE_TARGET "" CACHE STRING "Target Name")
 message(STATUS "Target: ${NATIVE_TARGET}")
 
 set(LIB_SRC_FILES "cxx/src/lib.cpp")
-set(LIB_INC_FILES "cxx/include/lib.hpp")
+set(LIB_INC_FILES "cxx/include/lib.hpp" "cxx/include/type-wrapper.hpp")
 
 set(APP_SRC_FILES "cxx/src/main.cpp")
 set(APP_INC_FILES "")
