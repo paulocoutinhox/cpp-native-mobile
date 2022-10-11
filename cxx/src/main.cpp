@@ -11,6 +11,8 @@ using namespace cpp::base;
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
 
+std::map<std::string, std::function<std::string(TypeWrapper &)>> flist;
+
 std::string test1(TypeWrapper &value)
 {
     auto rawValue = value.get<bool>();
@@ -27,9 +29,17 @@ std::string test2(TypeWrapper &value)
     return "{}";
 }
 
+template <typename T>
+std::string convertAdapter(std::string data)
+{
+    auto j = json::parse(data);
+    auto functionName = j["function"].get<std::string>();
+    TypeWrapper functionParam = j["param"].get<T>();
+    return flist[functionName](functionParam);
+}
+
 int main()
 {
-    std::map<std::string, std::function<std::string(TypeWrapper &)>> flist;
     flist["test1"] = &test1;
     flist["test2"] = &test2;
 
@@ -38,7 +48,5 @@ int main()
         {"param", true},
     };
 
-    auto functionName = j["function"].get<std::string>();
-    TypeWrapper functionParam = j["param"].get<bool>();
-    auto functionReturn = flist[functionName](functionParam);
+    auto functionReturn = convertAdapter<bool>(j.dump());
 }
