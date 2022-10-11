@@ -43,11 +43,25 @@ int main()
     flist["test1"] = &test1;
     flist["test2"] = &test2;
 
-    json j{
-        {"function", "test1"},
-        {"param", true},
-    };
+    {
+        // test one: bool
+        json j{
+            {"function", "test1"},
+            {"param", true},
+        };
 
-    auto functionReturn = convertAdapter<bool>(j.dump());
-    std::cout << "[Main] Returned Value: " << functionReturn << std::endl;
+        auto functionReturn = convertAdapter<bool>(j.dump());
+        std::cout << "[Main1] Returned Value: " << functionReturn << std::endl;
+    }
+
+    {
+        // test two: string
+        json j{
+            {"function", "test2"},
+            {"param", "my name"},
+        };
+
+        auto functionReturn = convertAdapter<std::string>(j.dump());
+        std::cout << "[Main2] Returned Value: " << functionReturn << std::endl;
+    }
 }
