@@ -50,7 +50,9 @@ int main()
             {"param", true},
         };
 
-        auto functionReturn = convertAdapter<bool>(j.dump());
+        auto jstr = j.dump();
+
+        auto functionReturn = convertAdapter<bool>(jstr);
         std::cout << "[Main1] Returned Value: " << functionReturn << std::endl;
     }
 
@@ -61,7 +63,9 @@ int main()
             {"param", "my name"},
         };
 
-        auto functionReturn = convertAdapter<std::string>(j.dump());
+        auto jstr = j.dump();
+
+        auto functionReturn = convertAdapter<std::string>(jstr);
         std::cout << "[Main2] Returned Value: " << functionReturn << std::endl;
     }
 }
