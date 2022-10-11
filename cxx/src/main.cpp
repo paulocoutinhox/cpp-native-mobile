@@ -6,11 +6,10 @@
 #include <any>
 
 #include "type-wrapper.hpp"
+using namespace cpp::base;
 
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
-
-using namespace cpp::base;
 
 std::string test1(TypeWrapper &value)
 {
