@@ -8,10 +8,10 @@ set(NATIVE_TARGET "" CACHE STRING "Target Name")
 message(STATUS "Target: ${NATIVE_TARGET}")
 
 set(LIB_SRC_FILES "cxx/src/lib.cpp")
-set(LIB_INC_FILES "cxx/include/lib.hpp" "cxx/include/type-wrapper.hpp")
+set(LIB_INC_FILES "cxx/include/lib.hpp")
 
 set(APP_SRC_FILES "cxx/src/main.cpp")
-set(APP_INC_FILES "")
+set(APP_INC_FILES "cxx/include/type-wrapper.hpp")
 
 if (NATIVE_TARGET STREQUAL "kotlin")
     add_library(native-proj SHARED ${LIB_SRC_FILES})
@@ -21,7 +21,6 @@ elseif (NATIVE_TARGET STREQUAL "java")
     set_target_properties(native-proj PROPERTIES PUBLIC_HEADER ${LIB_INC_FILES})
 else()
     add_executable(native-proj ${APP_SRC_FILES})
-    #set_target_properties(native-proj PROPERTIES PUBLIC_HEADER ${APP_INC_FILES})
 endif()
 
 target_include_directories(native-proj PRIVATE cxx/include)
