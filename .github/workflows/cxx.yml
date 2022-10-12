@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Run CppCheck
+        uses: deep5050/cppcheck-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN}}
+
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
@@ -37,8 +42,16 @@ jobs:
           cmake --version
           ninja --version
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: cpp
+
       - name: Build
         run: make build-${{ matrix.config.target }}
 
       - name: Tree
         run: make tree
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
