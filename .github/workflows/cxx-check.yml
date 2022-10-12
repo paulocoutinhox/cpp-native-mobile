@@ -4,12 +4,19 @@ on: [push]
 
 jobs:
   build:
-    name: cppcheck-test
-    runs-on: ubuntu-latest
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { name: "Ubuntu", os: ubuntu-latest, target: "kotlin" }
+        python-version: [3.7]
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: cppcheck
+      - name: Run CppCheck
         uses: deep5050/cppcheck-action@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
