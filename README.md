@@ -10,6 +10,11 @@ This is a test project that connect C++, Swift, Java and Kotlin in a Full-Duplex
     <a href="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/wasm.yml"><img src="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/wasm.yml/badge.svg"></a>
 </p>
 
+<p align="center">
+    <a href="https://app.codiga.io/hub/project/34803/cpp-native-mobile"><img src="https://api.codiga.io/project/34803/score/svg"></a>
+    <a href="https://app.codiga.io/hub/project/34803/cpp-native-mobile"><img src="https://api.codiga.io/project/34803/status/svg"></a>
+</p>
+
 <p align="center">This is an alpha project. After it works i will delete it and put on correct repository.</p>
 
 ## How to build for C++
