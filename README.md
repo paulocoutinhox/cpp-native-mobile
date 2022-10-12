@@ -1,6 +1,8 @@
 # C++ Native Mobile
 
-This is a test project that connect C++, Swift, Java and Kotlin in a Full-Duplex communication.
+<p align="center">This is a test project that connect C++, Swift, Java and Kotlin in a Full-Duplex communication.</p>
+
+<p align="center">This is an alpha project. After it works i will delete it and put on correct repository.</p>
 
 <p align="center">
     <a href="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/cxx.yml"><img src="https://github.com/paulocoutinhox/cpp-native-mobile/actions/workflows/cxx.yml/badge.svg"></a>
@@ -14,8 +16,6 @@ This is a test project that connect C++, Swift, Java and Kotlin in a Full-Duplex
     <a href="https://app.codiga.io/hub/project/34803/cpp-native-mobile"><img src="https://api.codiga.io/project/34803/score/svg"></a>
     <a href="https://app.codiga.io/hub/project/34803/cpp-native-mobile"><img src="https://api.codiga.io/project/34803/status/svg"></a>
 </p>
-
-<p align="center">This is an alpha project. After it works i will delete it and put on correct repository.</p>
 
 ## How to build for C++
 
