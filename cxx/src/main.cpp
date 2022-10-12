@@ -20,11 +20,11 @@ struct MappingItem
     std::function<const std::string(const std::string &)> executor;
     std::function<std::string(TypeWrapper &)> target;
 
-    MappingItem(const std::string &name, const std::function<std::string(TypeWrapper &)> &target, const std::function<const std::string(const std::string &)> &executor)
+    MappingItem(std::string name, std::function<std::string(TypeWrapper &)> target, std::function<const std::string(const std::string &)> executor)
     {
-        this->name = name;
-        this->target = target;
-        this->executor = executor;
+        this->name = std::move(name);
+        this->target = std::move(target);
+        this->executor = std::move(executor);
     }
 
     template <typename T>
