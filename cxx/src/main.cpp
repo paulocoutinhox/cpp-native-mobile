@@ -20,7 +20,7 @@ struct MappingItem
     std::function<const std::string(const std::string &)> executor;
     std::function<std::string(TypeWrapper &)> target;
 
-    MappingItem(std::string name, const std::function<std::string(TypeWrapper &)> &target, const std::function<const std::string(const std::string &)> &executor)
+    MappingItem(const std::string &name, const std::function<std::string(TypeWrapper &)> &target, const std::function<const std::string(const std::string &)> &executor)
     {
         this->name = name;
         this->target = target;
