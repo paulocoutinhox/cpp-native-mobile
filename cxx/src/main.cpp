@@ -13,21 +13,31 @@ using json = nlohmann::json;
 
 // MAPPING DATA
 
+template <typename T>
+std::string convertAdapter(std::string data);
+
 struct MappingItem
 {
     std::string name;
-    std::function<std::string(TypeWrapper &)> funct;
+    std::function<const std::string(const std::string &)> executor;
+    std::function<std::string(TypeWrapper &)> target;
 
-    MappingItem(std::string name, std::function<std::string(TypeWrapper &)> funct)
+    MappingItem(std::string name, std::function<std::string(TypeWrapper &)> target, std::function<const std::string(const std::string &)> executor)
     {
         this->name = name;
-        this->funct = funct;
+        this->target = target;
+        this->executor = executor;
     }
 
-    // std::string callFunc(std::string data)
-    // {
-    //     return convertAdapter<std::string>(data);
-    // }
+    template <typename T>
+    static MappingItem create(std::string name, std::function<std::string(TypeWrapper &)> target)
+    {
+        return MappingItem{
+            name, target, [target](const std::string &data)
+            {
+                return convertAdapter<T>(data);
+            }};
+    }
 };
 
 auto mapping = std::vector<MappingItem>{};
@@ -47,7 +57,26 @@ std::string convertAdapter(std::string data)
 
     if (mappingItem != mapping.end())
     {
-        return mappingItem->funct(functionParam);
+        return mappingItem->target(functionParam);
+    }
+
+    return "";
+}
+
+// EXECUTOR
+
+std::string executor(std::string data)
+{
+    auto j = json::parse(data);
+
+    std::string functionName = j["function"].get<std::string>();
+
+    auto mappingItem = std::find_if(mapping.begin(), mapping.end(), [&functionName](const MappingItem &item)
+                                    { return item.name == functionName; });
+
+    if (mappingItem != mapping.end())
+    {
+        return mappingItem->executor(data);
     }
 
     return "";
@@ -75,8 +104,8 @@ std::string test2(TypeWrapper &value)
 
 int main()
 {
-    mapping.push_back(MappingItem{"test1", &test1});
-    mapping.push_back(MappingItem{"test2", &test2});
+    mapping.push_back(MappingItem::create<bool>("test1", &test1));
+    mapping.push_back(MappingItem::create<std::string>("test2", &test2));
 
     {
         // test one: bool
@@ -87,7 +116,7 @@ int main()
 
         auto jstr = j.dump();
 
-        auto functionReturn = convertAdapter<bool>(jstr);
+        auto functionReturn = executor(jstr);
         std::cout << "[Main1] Returned Value: " << functionReturn << std::endl;
     }
 
@@ -100,7 +129,7 @@ int main()
 
         auto jstr = j.dump();
 
-        auto functionReturn = convertAdapter<std::string>(jstr);
+        auto functionReturn = executor(jstr);
         std::cout << "[Main2] Returned Value: " << functionReturn << std::endl;
     }
 }
