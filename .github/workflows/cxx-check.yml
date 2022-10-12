@@ -19,3 +19,9 @@ jobs:
         uses: deep5050/cppcheck-action@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
