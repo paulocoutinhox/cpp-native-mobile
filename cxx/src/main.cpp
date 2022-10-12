@@ -76,6 +76,7 @@ std::string test2(TypeWrapper &value)
 int main()
 {
     mapping.push_back(MappingItem{"test1", &test1});
+    mapping.push_back(MappingItem{"test2", &test2});
 
     {
         // test one: bool
