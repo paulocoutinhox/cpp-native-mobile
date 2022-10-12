@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { name: "macOS", os: macos-latest, target: "swift" }
+          - {name: "macOS", os: macos-latest, target: "swift"}
         python-version: [3.7]
 
     steps:

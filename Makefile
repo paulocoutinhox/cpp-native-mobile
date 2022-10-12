@@ -8,6 +8,8 @@ help:          ## Show The Help.
 .PHONY: clear
 clear:         ## Clear Temporary Files.
 	rm -rf build
+	rm -rf kotlin/build
+	rm -rf kotlin/app/build
 	rm -rf CMakeUserPresets.json
 
 .PHONY: tree
@@ -54,8 +56,8 @@ build-java:    ## Setup And Build For Java.
 
 .PHONY: build-cxx
 build-cxx:     ## Setup And Build For C++.
-#rm -rf build/cxx
-#mkdir -p build/cxx
+	rm -rf build/cxx
+	mkdir -p build/cxx
 
 	cmake -S . -B build/cxx -DNATIVE_TARGET=cxx
 	cmake --build build/cxx

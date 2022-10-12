@@ -33,6 +33,8 @@ fun main() {
     // method test product
     methodName = "testProduct"
     lateinit var result1: Any
+
+    @Suppress("MagicNumber")
     val prod = Product(99, "Finny Candy", 123456.99123456f, true)
 
     cls.getMethod(methodName, prod.javaClass)?.let { method ->
