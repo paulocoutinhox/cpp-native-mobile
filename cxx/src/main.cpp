@@ -11,7 +11,49 @@ using namespace cpp::base;
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
 
-std::map<std::string, std::function<std::string(TypeWrapper &)>> flist;
+// MAPPING DATA
+
+struct MappingItem
+{
+    std::string name;
+    std::function<std::string(TypeWrapper &)> funct;
+
+    MappingItem(std::string name, std::function<std::string(TypeWrapper &)> funct)
+    {
+        this->name = name;
+        this->funct = funct;
+    }
+
+    // std::string callFunc(std::string data)
+    // {
+    //     return convertAdapter<std::string>(data);
+    // }
+};
+
+auto mapping = std::vector<MappingItem>{};
+
+// ADAPTER FUNCTION
+
+template <typename T>
+std::string convertAdapter(std::string data)
+{
+    auto j = json::parse(data);
+
+    std::string functionName = j["function"].get<std::string>();
+    TypeWrapper functionParam = j["param"].get<T>();
+
+    auto mappingItem = std::find_if(mapping.begin(), mapping.end(), [&functionName](const MappingItem &item)
+                                    { return item.name == functionName; });
+
+    if (mappingItem != mapping.end())
+    {
+        return mappingItem->funct(functionParam);
+    }
+
+    return "";
+}
+
+// REAL FUNCTIONS
 
 std::string test1(TypeWrapper &value)
 {
@@ -29,19 +71,11 @@ std::string test2(TypeWrapper &value)
     return "{}";
 }
 
-template <typename T>
-std::string convertAdapter(std::string data)
-{
-    auto j = json::parse(data);
-    auto functionName = j["function"].get<std::string>();
-    TypeWrapper functionParam = j["param"].get<T>();
-    return flist[functionName](functionParam);
-}
+// MAIN
 
 int main()
 {
-    flist["test1"] = &test1;
-    flist["test2"] = &test2;
+    mapping.push_back(MappingItem{"test1", &test1});
 
     {
         // test one: bool
