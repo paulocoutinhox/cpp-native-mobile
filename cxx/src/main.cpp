@@ -20,7 +20,7 @@ struct MappingItem
     std::function<const std::string(const std::string &)> executor;
     std::function<std::string(TypeWrapper &)> target;
 
-    MappingItem(std::string name, std::function<std::string(TypeWrapper &)> target, std::function<const std::string(const std::string &)> executor)
+    MappingItem(std::string &&name, std::function<std::string(TypeWrapper &)> &&target, std::function<const std::string(const std::string &)> &&executor)
     {
         this->name = std::move(name);
         this->target = std::move(target);
@@ -28,13 +28,16 @@ struct MappingItem
     }
 
     template <typename T>
-    static MappingItem create(std::string name, std::function<std::string(TypeWrapper &)> target)
+    static MappingItem create(std::string &&name, std::function<std::string(TypeWrapper &)> &&target)
     {
         return MappingItem{
-            name, target, [target](const std::string &data)
+            std::move(name),
+            std::move(target),
+            [&target](const std::string &data)
             {
                 return convertAdapter<T>(data);
-            }};
+            },
+        };
     }
 };
 
