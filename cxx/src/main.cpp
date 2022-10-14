@@ -122,6 +122,53 @@ std::string test2(std::map<std::string, std::any> &values)
     return "{}";
 }
 
+// TESTS
+void libTest1()
+{
+    // test one: bool
+    auto jstr = R"(
+    {
+        "function": "test1",
+        "params": [
+            {
+                "name": "p1",
+                "value": true
+            },
+            {
+                "name": "p2",
+                "value": "my name"
+            }
+        ]
+    }
+    )";
+
+    auto functionReturn = executor(jstr);
+    std::cout << "[Main1] Returned Value: " << functionReturn << std::endl;
+}
+
+void libTest2()
+{
+    // test two: string
+    auto jstr = R"(
+    {
+        "function": "test2",
+        "params": [
+            {
+                "name": "p1",
+                "value": "my name"
+            },
+            {
+                "name": "p2",
+                "value": 3.14
+            }
+        ]
+    }
+    )";
+
+    auto functionReturn = executor(jstr);
+    std::cout << "[Main2] Returned Value: " << functionReturn << std::endl;
+}
+
 // MAIN
 
 int main()
@@ -129,47 +176,6 @@ int main()
     mapping.push_back(MappingItem::create<bool, std::string>("test1", &test1));
     mapping.push_back(MappingItem::create<std::string, float_t>("test2", &test2));
 
-    {
-        // test one: bool
-        auto jstr = R"(
-        {
-            "function": "test1",
-            "params": [
-                {
-                    "name": "p1",
-                    "value": true
-                },
-                {
-                    "name": "p2",
-                    "value": "my name"
-                }
-            ]
-        }
-        )";
-
-        auto functionReturn = executor(jstr);
-        std::cout << "[Main1] Returned Value: " << functionReturn << std::endl;
-    }
-
-    {
-        // test two: string
-        auto jstr = R"(
-        {
-            "function": "test2",
-            "params": [
-                {
-                    "name": "p1",
-                    "value": "my name"
-                },
-                {
-                    "name": "p2",
-                    "value": 3.14
-                }
-            ]
-        }
-        )";
-
-        auto functionReturn = executor(jstr);
-        std::cout << "[Main2] Returned Value: " << functionReturn << std::endl;
-    }
+    libTest1();
+    libTest2();
 }
