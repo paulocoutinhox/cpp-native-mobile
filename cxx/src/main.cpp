@@ -8,6 +8,24 @@
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
 
+// MACRO
+
+#define MACRO_VARIABLE_TO_STRING(Variable) (void(Variable), #Variable)
+#define MACRO_FUNCTION_TO_STRING(Function) (void(&Function), #Function)
+#define MACRO_METHOD_TO_STRING(ClassName, Method) (void(&ClassName::Method), #Method)
+#define MACRO_TYPE_TO_STRING(Type) (void(sizeof(Type)), #Type)
+
+// MODELS
+
+class Product
+{
+public:
+    long id;
+    std::string name;
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Product, id, name)
+
 // MAPPING DATA
 
 template <typename... Ts>
@@ -18,16 +36,18 @@ struct MappingItem
     std::string name;
     std::function<const std::string(const std::string &)> executor;
     std::function<std::string(std::map<std::string, std::any> &)> target;
+    std::vector<std::string> paramNames;
 
-    MappingItem(std::string &&name, std::function<std::string(std::map<std::string, std::any> &)> &&target, std::function<const std::string(const std::string &)> &&executor)
+    MappingItem(std::string &&name, std::function<std::string(std::map<std::string, std::any> &)> &&target, std::function<const std::string(const std::string &)> &&executor, std::vector<std::string> &&paramNames)
     {
         this->name = std::move(name);
         this->target = std::move(target);
         this->executor = std::move(executor);
+        this->paramNames = std::move(paramNames);
     }
 
-    template <typename... Ts>
-    static MappingItem create(std::string &&name, std::function<std::string(std::map<std::string, std::any> &)> &&target)
+    template <typename... Ts, typename... Args>
+    static MappingItem create(std::string &&name, std::function<std::string(std::map<std::string, std::any> &)> &&target, std::vector<std::string> &&mappingParamNames)
     {
         return MappingItem{
             std::move(name),
@@ -36,6 +56,7 @@ struct MappingItem
             {
                 return convertAdapter<Ts...>(data);
             },
+            std::move(mappingParamNames),
         };
     }
 };
@@ -100,6 +121,43 @@ std::string executor(std::string data)
     return "";
 }
 
+// GENERATOR
+
+template <typename... Args>
+std::string generator(std::string &&name, Args... args)
+{
+    // clang-format off
+    auto mappingItem = std::find_if(mapping.begin(), mapping.end(), [&name](const MappingItem &item){ return item.name == name; });
+    // clang-format on
+
+    if (mappingItem != mapping.end())
+    {
+        json j;
+        j["function"] = mappingItem->name;
+        j["params"] = json::array();
+
+        int paramCount = 0;
+
+        // clang-format off
+        (
+            [&]()
+            {
+                json o;
+                o["name"] = mappingItem->paramNames[paramCount];
+                o["value"] = args;
+                j["params"].push_back(o);
+
+                paramCount++;
+            }(),...
+        );
+        // clang-format on
+
+        return j.dump();
+    }
+
+    return "";
+}
+
 // REAL FUNCTIONS
 
 std::string test1(std::map<std::string, std::any> &values)
@@ -124,10 +182,18 @@ std::string test2(std::map<std::string, std::any> &values)
     return "{}";
 }
 
+std::string test3(std::map<std::string, std::any> &values)
+{
+    auto rawValue1 = std::any_cast<Product>(values["prod"]);
+    std::cout << "[Test3] Received Product: " << rawValue1.id << ", " << rawValue1.name << std::endl;
+
+    return "{}";
+}
+
 // TESTS
 void libTest1()
 {
-    // test one: bool
+    // test 1: bool and string
     auto jstr = R"(
     {
         "function": "test1",
@@ -150,7 +216,7 @@ void libTest1()
 
 void libTest2()
 {
-    // test two: string
+    // test 2: string and float
     auto jstr = R"(
     {
         "function": "test2",
@@ -171,13 +237,36 @@ void libTest2()
     std::cout << "[Main2] Returned Value: " << functionReturn << std::endl;
 }
 
+void libTest3()
+{
+    // test 3: generator
+    auto jstr = generator("test1", true, "ok");
+    std::cout << "[Main3] Request Data: " << jstr << std::endl;
+
+    auto functionReturn = executor(jstr);
+    std::cout << "[Main3] Returned Value: " << functionReturn << std::endl;
+}
+
+void libTest4()
+{
+    // test 3: product
+    auto jstr = generator("test3", Product{123, "My New Product"});
+    std::cout << "[Main4] Request Data: " << jstr << std::endl;
+
+    auto functionReturn = executor(jstr);
+    std::cout << "[Main4] Returned Value: " << functionReturn << std::endl;
+}
+
 // MAIN
 
 int main()
 {
-    mapping.push_back(MappingItem::create<bool, std::string>("test1", &test1));
-    mapping.push_back(MappingItem::create<std::string, float_t>("test2", &test2));
+    mapping.push_back(MappingItem::create<bool, std::string>("test1", &test1, {"p1", "p2"}));
+    mapping.push_back(MappingItem::create<std::string, float_t>("test2", &test2, {"p1", "p2"}));
+    mapping.push_back(MappingItem::create<Product>("test3", &test3, {"prod"}));
 
     libTest1();
     libTest2();
+    libTest3();
+    libTest4();
 }
