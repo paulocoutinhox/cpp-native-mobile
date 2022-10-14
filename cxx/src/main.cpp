@@ -57,6 +57,7 @@ std::string convertAdapter(std::string data)
     auto paramsSize = j["params"].size();
     auto paramCount = 0;
 
+    // clang-format off
     (
         [&]()
         {
@@ -65,11 +66,11 @@ std::string convertAdapter(std::string data)
 
             params[paramName] = paramValue;
             paramCount++;
-        }(),
-        ...);
+        }(),...
+    );
 
-    auto mappingItem = std::find_if(mapping.begin(), mapping.end(), [&functionName](const MappingItem &item)
-                                    { return item.name == functionName; });
+    auto mappingItem = std::find_if(mapping.begin(), mapping.end(), [&functionName](const MappingItem &item){ return item.name == functionName; });
+    // clang-format on
 
     if (mappingItem != mapping.end())
     {
@@ -87,8 +88,9 @@ std::string executor(std::string data)
 
     std::string functionName = j["function"].get<std::string>();
 
-    auto mappingItem = std::find_if(mapping.begin(), mapping.end(), [&functionName](const MappingItem &item)
-                                    { return item.name == functionName; });
+    // clang-format off
+    auto mappingItem = std::find_if(mapping.begin(), mapping.end(), [&functionName](const MappingItem &item){ return item.name == functionName; });
+    // clang-format on
 
     if (mappingItem != mapping.end())
     {
