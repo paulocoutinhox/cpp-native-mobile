@@ -10,16 +10,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {name: "Ubuntu", os: ubuntu-latest, target: "kotlin"}
+          - {name: "Ubuntu", os: ubuntu-latest, target: "cxx"}
         python-version: [3.7]
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Run CppCheck
-        uses: deep5050/cppcheck-action@main
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN}}
 
       - name: Check code meets quality standards
         id: codiga
